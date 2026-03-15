@@ -3744,6 +3744,248 @@
     .card, .settings-card, .settings-row, .area-manage-item {
       transition: background 0.3s, border-color 0.3s;
     }
+
+    /* ============================================
+       NEW FEATURES CSS
+    ============================================ */
+
+    /* Tab slide transitions */
+    @keyframes slideFromRight { from { opacity:0; transform:translateX(24px); } to { opacity:1; transform:translateX(0); } }
+    @keyframes slideFromLeft  { from { opacity:0; transform:translateX(-24px);} to { opacity:1; transform:translateX(0); } }
+    .screen.active { animation: slideFromRight 0.22s cubic-bezier(0.32,0.72,0,1) both; }
+    .screen.slide-left.active { animation: slideFromLeft 0.22s cubic-bezier(0.32,0.72,0,1) both; }
+
+    /* Voice button for task input */
+    .voice-input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .voice-input-row .bs-input { flex: 1; }
+    .voice-btn {
+      width: 42px; height: 42px; border-radius: var(--radius-sm); flex-shrink: 0;
+      background: var(--card); border: 1.5px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; cursor: pointer; transition: all 0.2s;
+    }
+    .voice-btn:active { transform: scale(0.92); }
+    .voice-btn.listening {
+      background: var(--danger-soft);
+      border-color: var(--danger);
+      animation: voicePulse 0.8s ease-in-out infinite;
+    }
+    @keyframes voicePulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(240,80,96,0.4); }
+      50%      { box-shadow: 0 0 0 8px rgba(240,80,96,0); }
+    }
+
+    /* ---- Daily Journal Modal ---- */
+    #journal-overlay {
+      z-index: 3800;
+    }
+    .journal-date-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1px; color: var(--muted); margin-bottom: 10px;
+    }
+    .journal-textarea {
+      width: 100%;
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm); padding: 14px 16px;
+      font-family: var(--font-body); font-size: 15px; color: var(--text);
+      resize: none; min-height: 180px; outline: none; line-height: 1.7;
+      transition: border-color 0.2s;
+    }
+    .journal-textarea:focus { border-color: var(--primary); }
+    .journal-textarea::placeholder { color: var(--muted-2); }
+    .journal-mood-row {
+      display: flex; gap: 8px; margin-bottom: 14px;
+    }
+    .mood-btn {
+      flex: 1; padding: 8px 4px; background: var(--card);
+      border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+      text-align: center; cursor: pointer; transition: all 0.18s;
+      user-select: none; font-size: 20px;
+    }
+    .mood-btn:active { transform: scale(0.92); }
+    .mood-btn.selected { border-color: var(--primary); background: var(--primary-soft); }
+    .journal-streak-info {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--warning-soft); border: 1px solid rgba(240,192,64,0.25);
+      border-radius: var(--radius-sm); padding: 10px 14px;
+      font-size: 13px; color: var(--warning); font-weight: 600;
+      margin-top: 10px;
+    }
+
+    /* ---- Keyboard Shortcuts Toast ---- */
+    #kb-shortcuts-overlay {
+      position: fixed; inset: 0; z-index: 10500;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.2s;
+      padding: 24px;
+    }
+    #kb-shortcuts-overlay.open { opacity: 1; pointer-events: all; }
+    .kb-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-xl); padding: 24px; width: 100%;
+      max-width: 340px; animation: slideUp 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    .kb-title {
+      font-family: var(--font-display); font-size: 18px; font-weight: 800;
+      color: var(--text); margin-bottom: 16px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .kb-close-btn {
+      width: 28px; height: 28px; border-radius: 8px; background: var(--surface);
+      border: 1px solid var(--border); cursor: pointer; display: flex;
+      align-items: center; justify-content: center; font-size: 14px; color: var(--muted);
+    }
+    .kb-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 9px 0; border-bottom: 1px solid var(--border);
+      font-size: 14px; color: var(--text-2);
+    }
+    .kb-row:last-child { border-bottom: none; }
+    .kb-key {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: 6px; padding: 3px 10px; font-family: var(--font-display);
+      font-size: 13px; font-weight: 700; color: var(--primary);
+      min-width: 32px;
+    }
+
+    /* ---- Scroll progress bar (top of app) ---- */
+    #scroll-progress {
+      position: fixed; top: 0; left: 0; right: 0; height: 3px;
+      z-index: 9998; pointer-events: none;
+      background: linear-gradient(90deg, var(--primary), #9B8FFF);
+      transform-origin: left; transform: scaleX(0);
+      transition: transform 0.15s ease;
+    }
+
+    /* ---- Journal home widget ---- */
+    .journal-home-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 14px 16px;
+      margin-bottom: 16px; cursor: pointer; transition: all 0.18s;
+      display: flex; align-items: flex-start; gap: 12px;
+    }
+    .journal-home-card:active { transform: scale(0.99); }
+    .journal-home-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+    .journal-home-title {
+      font-family: var(--font-display); font-size: 14px; font-weight: 700;
+      color: var(--text); margin-bottom: 4px;
+    }
+    .journal-home-preview {
+      font-size: 13px; color: var(--muted); line-height: 1.4;
+      overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    .journal-home-mood { font-size: 18px; flex-shrink: 0; margin-left: auto; }
+
+    /* ---- CSV export button ---- */
+    .export-csv-btn {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 14px; background: var(--success-soft);
+      border: 1.5px solid rgba(64,208,128,0.3); border-radius: var(--radius-sm);
+      color: var(--success); font-size: 13px; font-weight: 700;
+      cursor: pointer; transition: all 0.18s; margin-top: 10px; width: 100%;
+      justify-content: center;
+    }
+    .export-csv-btn:active { transform: scale(0.98); }
+
+    /* ============================================
+       RICH EMPTY STATES
+    ============================================ */
+    .rich-empty {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; padding: 48px 24px; text-align: center;
+    }
+    .rich-empty-svg { margin-bottom: 20px; opacity: 0.85; }
+    .rich-empty-title {
+      font-family: var(--font-display); font-size: 20px; font-weight: 700;
+      color: var(--text-2); margin-bottom: 8px;
+    }
+    .rich-empty-text {
+      font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 24px;
+      max-width: 260px;
+    }
+    .rich-empty-tips {
+      display: flex; flex-direction: column; gap: 8px;
+      width: 100%; max-width: 280px; margin-bottom: 20px;
+    }
+    .rich-empty-tip {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 10px 14px;
+      font-size: 13px; color: var(--text-2); text-align: left;
+    }
+    @keyframes emptyFloat {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-8px); }
+    }
+    .rich-empty-svg { animation: emptyFloat 3.5s ease-in-out infinite; }
+
+    /* ============================================
+       SKELETON LOADING
+    ============================================ */
+    .skeleton {
+      background: linear-gradient(90deg, var(--card) 25%, var(--border) 50%, var(--card) 75%);
+      background-size: 200% 100%;
+      animation: skeletonShimmer 1.4s ease infinite;
+      border-radius: var(--radius-sm);
+    }
+    @keyframes skeletonShimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .skeleton-chart {
+      width: 100%; height: 220px;
+      border-radius: var(--radius-sm);
+    }
+    .skeleton-row {
+      height: 14px; border-radius: 7px; margin-bottom: 10px;
+    }
+    .skeleton-row.short { width: 60%; }
+    .skeleton-row.medium { width: 80%; }
+
+    /* ============================================
+       CARD REVEAL ANIMATION
+    ============================================ */
+    @keyframes cardReveal {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .card-reveal { animation: cardReveal 0.25s ease both; }
+
+    /* ============================================
+       TASK COMPLETION RIPPLE
+    ============================================ */
+    @keyframes completeRipple {
+      0%   { box-shadow: 0 0 0 0 rgba(64,208,128,0.5); }
+      50%  { box-shadow: 0 0 0 12px rgba(64,208,128,0); }
+      100% { box-shadow: 0 0 0 0 rgba(64,208,128,0); }
+    }
+    .task-card-wrap.complete-ripple .task-card { animation: completeRipple 0.5s ease; }
+
+    /* ============================================
+       DRAG & DROP
+    ============================================ */
+    .task-card-wrap.dragging {
+      opacity: 0.4; transform: scale(0.98);
+    }
+    .task-card-wrap.drag-over {
+      border: 2px dashed var(--primary); border-radius: var(--radius-sm);
+      background: var(--primary-soft);
+    }
+    .task-card-wrap .drag-handle {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      font-size: 14px; color: var(--muted-2); cursor: grab; z-index: 2;
+      opacity: 0; transition: opacity 0.2s; touch-action: none; padding: 4px;
+    }
+    .task-card-wrap:hover .drag-handle { opacity: 1; }
+    .task-card-wrap .drag-handle:active { cursor: grabbing; }
   </style>
 <body>
 
@@ -4124,6 +4366,22 @@
           </div>
         </div>
 
+        <!-- Section 7: Daily Journal Widget -->
+        <div style="margin-top:20px;" id="home-journal-section">
+          <div class="section-title">
+            <span>📔 Aaj Ka Journal</span>
+            <span style="font-size:12px;color:var(--muted);font-weight:400;" id="home-journal-subtitle">Daily reflection</span>
+          </div>
+          <div class="journal-home-card" onclick="JOURNAL.openModal()" id="home-journal-card">
+            <div class="journal-home-icon">📔</div>
+            <div style="flex:1;min-width:0;">
+              <div class="journal-home-title">Aaj kaise raha?</div>
+              <div class="journal-home-preview" id="home-journal-preview">Tap karke apne thoughts likho... ✍️</div>
+            </div>
+            <div class="journal-home-mood" id="home-journal-mood"></div>
+          </div>
+        </div>
+
         <!-- Privacy Badge -->
         <div class="privacy-badge-wrap" id="privacy-badge-wrap">
           <div class="privacy-badge" onclick="SETTINGS.togglePrivacyTip()" id="privacy-badge-btn">
@@ -4162,11 +4420,23 @@
       <div class="screen-content" style="padding-top:0;" id="tasks-main-content">
 
         <!-- Full empty state -->
-        <div class="tasks-full-empty hidden" id="tasks-full-empty">
-          <div style="font-size:56px;margin-bottom:16px;animation:float 3s ease-in-out infinite;">✅</div>
-          <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--text-2);margin-bottom:8px;">Koi tasks nahi!</div>
-          <div style="font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:20px;">+ button se apna pehla task banao</div>
-          <button class="btn btn-primary" style="width:auto;flex:unset;padding:12px 28px;" onclick="TASKS.showAddTask()">Task Add Karo</button>
+        <div class="tasks-full-empty rich-empty hidden" id="tasks-full-empty">
+          <svg class="rich-empty-svg" width="140" height="120" viewBox="0 0 140 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="10" width="100" height="18" rx="9" fill="var(--border)"/>
+            <rect x="20" y="36" width="80" height="14" rx="7" fill="var(--border)" opacity="0.7"/>
+            <rect x="20" y="58" width="90" height="14" rx="7" fill="var(--border)" opacity="0.5"/>
+            <rect x="20" y="80" width="60" height="14" rx="7" fill="var(--border)" opacity="0.3"/>
+            <circle cx="112" cy="92" r="22" fill="var(--primary)" opacity="0.9"/>
+            <text x="112" y="98" text-anchor="middle" font-size="20" fill="white">✚</text>
+          </svg>
+          <div class="rich-empty-title">Clean slate! 🎉</div>
+          <div class="rich-empty-text">Koi tasks nahi — aaj kya karna hai?</div>
+          <div class="rich-empty-tips">
+            <div class="rich-empty-tip">⭐ MIT tasks sabse pehle complete karo</div>
+            <div class="rich-empty-tip">👉 Swipe right = complete, left = delete</div>
+            <div class="rich-empty-tip">🎙️ Mic button se voice se task add karo</div>
+          </div>
+          <button class="btn btn-primary" style="width:auto;flex:unset;padding:12px 28px;" onclick="TASKS.showAddTask()">✚ Pehla Task Banao</button>
         </div>
 
         <!-- MIT Section -->
@@ -4399,11 +4669,23 @@
         <div class="screen-content" style="padding-top:0;" id="goals-content">
 
           <!-- Empty state -->
-          <div class="goals-empty hidden" id="goals-empty">
-            <div style="font-size:56px;margin-bottom:16px;animation:float 3s ease-in-out infinite;">🎯</div>
-            <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--text-2);margin-bottom:8px;">Koi goals nahi!</div>
-            <div style="font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:20px;">+ button se apna pehla goal banao</div>
-            <button class="btn btn-primary" style="width:auto;flex:unset;padding:12px 28px;" onclick="GOALS.showAddGoal()">Goal Add Karo</button>
+          <div class="goals-empty rich-empty hidden" id="goals-empty">
+            <svg class="rich-empty-svg" width="140" height="120" viewBox="0 0 140 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="70" cy="55" r="40" stroke="var(--border)" stroke-width="3" fill="none"/>
+              <circle cx="70" cy="55" r="26" stroke="var(--border)" stroke-width="3" fill="none"/>
+              <circle cx="70" cy="55" r="12" fill="var(--primary)" opacity="0.8"/>
+              <line x1="70" y1="12" x2="70" y2="22" stroke="var(--primary)" stroke-width="3" stroke-linecap="round"/>
+              <line x1="70" y1="88" x2="70" y2="98" stroke="var(--primary)" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+              <line x1="28" y1="55" x2="38" y2="55" stroke="var(--primary)" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+              <line x1="102" y1="55" x2="112" y2="55" stroke="var(--primary)" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+            </svg>
+            <div class="rich-empty-title">Koi goals nahi! 🎯</div>
+            <div class="rich-empty-text">Bade sapne choti steps — pehla goal set karo aur track karo</div>
+            <div class="rich-empty-tips">
+              <div class="rich-empty-tip">📅 Target date set karo — deadline motivate karti hai</div>
+              <div class="rich-empty-tip">⏱️ Required hours set karo — progress auto track hoga</div>
+            </div>
+            <button class="btn btn-primary" style="width:auto;flex:unset;padding:12px 28px;" onclick="GOALS.showAddGoal()">🎯 Pehla Goal Banao</button>
           </div>
 
           <!-- Goals list -->
@@ -4429,11 +4711,23 @@
           </div>
 
           <!-- Habits empty state -->
-          <div class="habits-empty hidden" id="habits-empty">
-            <div style="font-size:56px;margin-bottom:16px;animation:float 3s ease-in-out infinite;">🔁</div>
-            <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--text-2);margin-bottom:8px;">Koi habits nahi!</div>
-            <div style="font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:20px;">Daily habits se life change hoti hai 💪</div>
-            <button class="btn btn-primary" style="width:auto;flex:unset;padding:12px 28px;" onclick="HABITS.showAddHabit()">Pehla Habit Add Karo</button>
+          <div class="habits-empty rich-empty hidden" id="habits-empty">
+            <svg class="rich-empty-svg" width="140" height="120" viewBox="0 0 140 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="18" y="20" width="30" height="80" rx="6" fill="var(--border)" opacity="0.5"/>
+              <rect x="18" y="60" width="30" height="40" rx="6" fill="var(--primary)" opacity="0.7"/>
+              <rect x="56" y="35" width="30" height="65" rx="6" fill="var(--border)" opacity="0.5"/>
+              <rect x="56" y="55" width="30" height="45" rx="6" fill="var(--success)" opacity="0.7"/>
+              <rect x="94" y="10" width="30" height="90" rx="6" fill="var(--border)" opacity="0.5"/>
+              <rect x="94" y="30" width="30" height="70" rx="6" fill="var(--warning)" opacity="0.7"/>
+            </svg>
+            <div class="rich-empty-title">Koi habits nahi! 🔁</div>
+            <div class="rich-empty-text">Chhoti daily habits badi zindagi banati hain</div>
+            <div class="rich-empty-tips">
+              <div class="rich-empty-tip">🔥 7 din ka streak — Week Warrior badge milega!</div>
+              <div class="rich-empty-tip">💪 21 din ke baad habit lock ho jaati hai</div>
+              <div class="rich-empty-tip">🪙 Har habit complete pe +1 coin</div>
+            </div>
+            <button class="btn btn-primary" style="width:auto;flex:unset;padding:12px 28px;" onclick="HABITS.showAddHabit()">🔁 Pehla Habit Banao</button>
           </div>
 
           <!-- Habits grouped list -->
@@ -4686,7 +4980,10 @@
     <!-- Title -->
     <div class="bs-field">
       <div class="bs-label">Task ka title *</div>
-      <input class="bs-input" id="at-title" type="text" placeholder="Kya karna hai?" autocorrect="off" maxlength="120"/>
+      <div class="voice-input-row">
+        <input class="bs-input" id="at-title" type="text" placeholder="Kya karna hai?" autocorrect="off" maxlength="120"/>
+        <button class="voice-btn" id="at-voice-btn" onclick="VOICE.startForTask()" title="Voice input">🎙️</button>
+      </div>
     </div>
 
     <!-- Area -->
@@ -5021,6 +5318,7 @@
   <div class="fab-menu" id="fab-menu">
     <div class="fab-menu-item" onclick="UI.fabAction('task')"><div class="fab-menu-icon" style="background:var(--primary-soft);">✅</div><span class="fab-menu-label">Task add karo</span></div>
     <div class="fab-menu-item" onclick="UI.fabAction('goal')"><div class="fab-menu-icon" style="background:var(--success-soft);">🎯</div><span class="fab-menu-label">Goal add karo</span></div>
+    <div class="fab-menu-item" onclick="UI.fabAction('journal')"><div class="fab-menu-icon" style="background:rgba(108,99,255,0.15);">📔</div><span class="fab-menu-label">Journal likho</span></div>
     <div class="fab-menu-item" onclick="UI.fabAction('idea')"><div class="fab-menu-icon" style="background:var(--warning-soft);">💡</div><span class="fab-menu-label">Idea capture</span></div>
     <div class="fab-menu-item" onclick="UI.fabAction('focus')"><div class="fab-menu-icon" style="background:rgba(240,192,64,0.15);">⏱️</div><span class="fab-menu-label">Focus start</span></div>
   </div>
@@ -5038,6 +5336,75 @@
     <div style="display:flex;gap:10px;">
       <button class="btn btn-ghost" onclick="UI.closeIdeaModal()" style="flex:1;">Cancel</button>
       <button class="btn btn-primary" onclick="UI.saveIdea()">Save Idea 💡</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     SCROLL PROGRESS BAR
+============================================ -->
+<div id="scroll-progress"></div>
+
+<!-- ============================================
+     KEYBOARD SHORTCUTS OVERLAY
+============================================ -->
+<div id="kb-shortcuts-overlay" onclick="KB.close()">
+  <div class="kb-card" onclick="event.stopPropagation()">
+    <div class="kb-title">
+      ⌨️ Keyboard Shortcuts
+      <div class="kb-close-btn" onclick="KB.close()">✕</div>
+    </div>
+    <div class="kb-row"><span>New Task</span><span class="kb-key">N</span></div>
+    <div class="kb-row"><span>New Goal</span><span class="kb-key">G</span></div>
+    <div class="kb-row"><span>Focus Mode</span><span class="kb-key">F</span></div>
+    <div class="kb-row"><span>Home</span><span class="kb-key">H</span></div>
+    <div class="kb-row"><span>Stats</span><span class="kb-key">S</span></div>
+    <div class="kb-row"><span>Journal</span><span class="kb-key">J</span></div>
+    <div class="kb-row"><span>Quick Idea</span><span class="kb-key">I</span></div>
+    <div class="kb-row"><span>Shortcuts Help</span><span class="kb-key">?</span></div>
+    <div class="kb-row"><span>Close / Escape</span><span class="kb-key">Esc</span></div>
+  </div>
+</div>
+
+<!-- ============================================
+     DAILY JOURNAL BOTTOM SHEET
+============================================ -->
+<div class="bottom-sheet-overlay" id="journal-overlay" onclick="JOURNAL.handleOverlayClick(event)">
+  <div class="bottom-sheet" id="journal-sheet">
+    <div class="bs-handle"></div>
+    <div class="bs-title">📔 Daily Journal</div>
+
+    <div class="journal-date-label" id="journal-date-label">—</div>
+
+    <!-- Mood selector -->
+    <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;">Aaj ka mood</div>
+    <div class="journal-mood-row">
+      <div class="mood-btn" data-mood="😄" onclick="JOURNAL.selectMood('😄')" title="Great">😄</div>
+      <div class="mood-btn" data-mood="🙂" onclick="JOURNAL.selectMood('🙂')" title="Good">🙂</div>
+      <div class="mood-btn" data-mood="😐" onclick="JOURNAL.selectMood('😐')" title="Okay">😐</div>
+      <div class="mood-btn" data-mood="😔" onclick="JOURNAL.selectMood('😔')" title="Low">😔</div>
+      <div class="mood-btn" data-mood="😤" onclick="JOURNAL.selectMood('😤')" title="Frustrated">😤</div>
+    </div>
+
+    <!-- Journal text -->
+    <div class="bs-field">
+      <div class="bs-label">Aaj kya hua? Kya seekha? 📝</div>
+      <textarea class="journal-textarea" id="journal-text"
+        placeholder="• Aaj kya achieve kiya?&#10;• Kya struggle raha?&#10;• Kal ke liye kya plan hai?&#10;• Grateful hoon..."
+        maxlength="2000"></textarea>
+      <div style="display:flex;justify-content:space-between;margin-top:6px;">
+        <div style="font-size:11px;color:var(--muted);" id="journal-char-count">0 / 2000</div>
+        <div style="font-size:11px;color:var(--success);" id="journal-save-status"></div>
+      </div>
+    </div>
+
+    <div class="journal-streak-info" id="journal-streak-info" style="display:none;">
+      🔥 <span id="journal-streak-text">Journal streak: 1 din!</span>
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:4px;">
+      <button class="btn btn-ghost" onclick="JOURNAL.closeModal()" style="flex:1;">Cancel</button>
+      <button class="btn btn-primary" onclick="JOURNAL.save()">Save Journal 📔</button>
     </div>
   </div>
 </div>
@@ -5066,7 +5433,7 @@
   </div>
   <div class="install-prompt-btns">
     <button class="install-btn" onclick="INSTALL.install()">Install</button>
-    <button class="install-dismiss" onclick="INSTALL.dismiss()">✕</button>
+    <button class="install-dismiss" onclick="INSTALL.dismissPermanently()">✕</button>
   </div>
 </div>
 
@@ -5090,7 +5457,9 @@ const KEYS = {
   SHOWN_OFFLINE: 'fo_offline_shown',
   ALERT_DISMISSED: 'fo_alert_dismissed_date',
   LAST_REVIEW: 'fo_last_review',
-  CHALLENGE_CLAIMED: 'fo_challenge_claimed_week'
+  INSTALL_DISMISSED: 'fo_install_dismissed',
+  CHALLENGE_CLAIMED: 'fo_challenge_claimed_week',
+  JOURNAL: 'fo_journal'
 };
 
 /* ============================================
@@ -5306,7 +5675,9 @@ const Utils = {
       // Goal near deadline (≤30 days)
       const activeGoals = DB.getGoals().filter(g => g.status === 'active' && g.targetDate);
       for (const g of activeGoals) {
-        const days = Math.ceil((new Date(g.targetDate) - new Date(this.today())) / 86400000);
+        const td = safeParseDate(g.targetDate);
+        if (!td) continue;
+        const days = Math.ceil((td - new Date(this.today())) / 86400000);
         if (days > 0 && days <= 30) {
           return `${name}, "${g.title}" mein ${days} din bache hain!`;
         }
@@ -5400,6 +5771,15 @@ const Utils = {
 const chartInstances = {};
 function destroyChart(id) { try { if (chartInstances[id]) { chartInstances[id].destroy(); delete chartInstances[id]; } } catch {} }
 function saveChart(id, inst) { chartInstances[id] = inst; }
+
+/* ============================================
+   DATE HELPER
+============================================ */
+function safeParseDate(str) {
+  if (!str) return null;
+  const d = new Date(str);
+  return isNaN(d.getTime()) ? null : d;
+}
 
 /* ============================================
    SAMPLE DATA
@@ -5797,6 +6177,9 @@ const UI = {
       /* -- Section 6: Weekly Challenge -- */
       this.renderWeeklyChallenge();
 
+      /* -- Section 7: Journal Widget -- */
+      try { JOURNAL.renderHomeWidget(); } catch {}
+
     } catch (e) { console.warn('[UI] renderHome error:', e); }
   },
 
@@ -5866,6 +6249,7 @@ const UI = {
       DB.saveUser(user);
       if (levelAfter > levelBefore) {
         const lvl = Utils.calculateLevel(user.totalCoins);
+        SFX.fanfare();
         setTimeout(() => this.showToast(`Level Up! Tu ab ${lvl.name} hai! 🎊`, '⬆️'), 600);
         Utils.haptic([100, 50, 100]);
       }
@@ -6056,10 +6440,11 @@ const UI = {
   fabAction(type) {
     this.closeFab(); Utils.haptic(40);
     switch (type) {
-      case 'task':  TASKS.showAddTask(); break;
-      case 'goal':  GOALS.showAddGoal(); break;
-      case 'idea':  this.showIdeaModal(); break;
-      case 'focus': this.switchTab('focus');  this.showToast('Focus timer — coming in P4! 🔜', '⏱️'); break;
+      case 'task':    TASKS.showAddTask(); break;
+      case 'goal':    GOALS.showAddGoal(); break;
+      case 'idea':    this.showIdeaModal(); break;
+      case 'journal': JOURNAL.openModal(); break;
+      case 'focus':   this.switchTab('focus'); break;
     }
   },
 
@@ -6213,7 +6598,7 @@ const TASKS = {
     if (mits.length === 0) { section.classList.add('hidden'); return; }
     section.classList.remove('hidden');
     if (count) count.textContent = mits.length;
-    list.innerHTML = mits.map(t => this._taskCardHTML(t, true)).join('');
+    list.innerHTML = mits.map(t => { try { return this._taskCardHTML(t, true); } catch(e) { console.warn('[TASKS] MIT card:', t.id, e); return ''; } }).join('');
     this._attachSwipeListeners(list);
   },
 
@@ -6232,7 +6617,7 @@ const TASKS = {
     if (sorted.length === 0) { section.classList.add('hidden'); return; }
     section.classList.remove('hidden');
     if (count) count.textContent = sorted.length;
-    list.innerHTML = sorted.map(t => this._taskCardHTML(t, false)).join('');
+    list.innerHTML = sorted.map(t => { try { return this._taskCardHTML(t, false); } catch(e) { console.warn('[TASKS] baaki card:', t.id, e); return ''; } }).join('');
     this._attachSwipeListeners(list);
   },
 
@@ -6247,7 +6632,7 @@ const TASKS = {
     section.classList.remove('hidden');
     if (count) count.textContent = done.length;
 
-    list.innerHTML = done.map(t => this._taskCardHTML(t, false)).join('');
+    list.innerHTML = done.map(t => { try { return this._taskCardHTML(t, false); } catch(e) { console.warn('[TASKS] done card:', t.id, e); return ''; } }).join('');
     list.style.maxHeight = this.completedOpen ? `${done.length * 80 + 20}px` : '0';
     if (colBtn) colBtn.classList.toggle('open', this.completedOpen);
   },
@@ -6298,10 +6683,11 @@ const TASKS = {
     const dueTxt = this._dueDateText(task.dueDate);
 
     return `
-      <div class="task-card-wrap" id="wrap-${task.id}">
+      <div class="task-card-wrap card-reveal" id="wrap-${task.id}" style="animation-delay:${Math.random()*0.08}s;" draggable="true">
         <div class="swipe-bg right"><span class="swipe-bg-text">✅ Complete</span></div>
         <div class="swipe-bg left"><span class="swipe-bg-text">🗑️ Delete</span></div>
-        <div class="task-card ${isMIT ? 'mit-card' : ''} ${task.completed ? 'done' : ''}" id="card-${task.id}">
+        <div class="drag-handle" title="Drag to reorder">⠿</div>
+        <div class="task-card ${isMIT ? 'mit-card' : ''} ${task.completed ? 'done' : ''}" id="card-${task.id}" onclick="TASKS.handleCardTap(event,'${task.id}')">
           <div class="task-cb" id="cb-${task.id}" onclick="event.stopPropagation();TASKS.completeTask('${task.id}')">${task.completed ? '✓' : ''}</div>
           <div class="task-body">
             <div class="task-title">${UI.escapeHtml(task.title)}</div>
@@ -6320,15 +6706,35 @@ const TASKS = {
 
   _isNightTime() { return new Date().getHours() >= 21; },
 
+  _persistOrder(container) {
+    try {
+      // Build new order from DOM
+      const newOrder = Array.from(container.querySelectorAll('.task-card-wrap'))
+        .map(w => w.id.replace('wrap-', ''))
+        .filter(Boolean);
+      if (newOrder.length === 0) return;
+      const tasks = DB.getTasks();
+      const orderMap = Object.fromEntries(newOrder.map((id, i) => [id, i]));
+      tasks.sort((a, b) => {
+        const ai = orderMap[a.id] ?? 999;
+        const bi = orderMap[b.id] ?? 999;
+        return ai - bi;
+      });
+      DB.saveTasks(tasks);
+    } catch (e) { console.warn('[TASKS] persistOrder:', e); }
+  },
+
   _dueDateText(dateStr) {
     if (!dateStr) return '';
+    const testDate = safeParseDate(dateStr);
+    if (!testDate) return '';
     const today    = Utils.today();
     const tomorrow = (() => { const d = new Date(); d.setDate(d.getDate()+1); return d.toISOString().split('T')[0]; })();
     let label, cls = '';
     if (dateStr < today)     { label = 'Overdue!'; cls = 'overdue'; }
     else if (dateStr === today)    { label = 'Aaj'; cls = 'overdue'; }
     else if (dateStr === tomorrow) { label = 'Kal'; }
-    else { label = new Date(dateStr).toLocaleDateString('en-IN', { day:'numeric', month:'short' }); }
+    else { label = testDate.toLocaleDateString('en-IN', { day:'numeric', month:'short' }); }
     return `<div class="due-tag ${cls}">📅 ${label}</div>`;
   },
 
@@ -6391,6 +6797,54 @@ const TASKS = {
       card.addEventListener('mouseup',    onEnd);
       card.addEventListener('mouseleave', onEnd);
     });
+
+    // Drag & drop reorder on the container
+    this._attachDragDrop(container);
+  },
+
+  _attachDragDrop(container) {
+    let dragSrc = null;
+
+    container.querySelectorAll('.task-card-wrap').forEach(wrap => {
+      if (wrap.dataset.ddInit) return;
+      wrap.dataset.ddInit = '1';
+
+      wrap.addEventListener('dragstart', (e) => {
+        dragSrc = wrap;
+        wrap.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', wrap.id);
+        SFX.whoosh();
+      });
+      wrap.addEventListener('dragend', () => {
+        wrap.classList.remove('dragging');
+        container.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+        dragSrc = null;
+      });
+      wrap.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        if (dragSrc && dragSrc !== wrap) {
+          container.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+          wrap.classList.add('drag-over');
+        }
+      });
+      wrap.addEventListener('dragleave', () => wrap.classList.remove('drag-over'));
+      wrap.addEventListener('drop', (e) => {
+        e.preventDefault();
+        wrap.classList.remove('drag-over');
+        if (!dragSrc || dragSrc === wrap) return;
+        // Reorder in DOM
+        const parent = container;
+        const srcIdx  = Array.from(parent.children).indexOf(dragSrc);
+        const destIdx = Array.from(parent.children).indexOf(wrap);
+        if (srcIdx > destIdx) parent.insertBefore(dragSrc, wrap);
+        else parent.insertBefore(dragSrc, wrap.nextSibling);
+        // Persist order: update tasks array order in DB
+        this._persistOrder(parent);
+        Utils.haptic(30);
+      });
+    });
   },
 
   /* ============================================
@@ -6409,6 +6863,7 @@ const TASKS = {
           const coins = task.isMIT ? 2 : 1;
           UI.addCoins(coins, id);
           UI.showCoinPop(`+${coins}🪙`);
+          SFX.pop();
           Utils.haptic(80);
           UI.showToast(task.isMIT ? `MIT complete! +2 coins 🎉` : `Task done! +1 coin 🪙`, '✅');
           refreshAll();
@@ -6417,6 +6872,7 @@ const TASKS = {
         DB.updateTask(id, { completed: true, completedAt: new Date().toISOString() });
         const coins = task.isMIT ? 2 : 1;
         UI.addCoins(coins, id);
+        SFX.pop();
         UI.showToast(`Task done! +${coins} coin 🪙`, '✅');
         refreshAll();
       }
@@ -6478,6 +6934,16 @@ const TASKS = {
     if (event && event.target !== document.getElementById('confirm-modal')) return;
     document.getElementById('confirm-modal')?.classList.remove('open');
     this._pendingDelete = null;
+    // Reset confirm button in case it was repurposed for goal completion
+    try {
+      GOALS._awaitingGoalComplete = false;
+      const btn = document.getElementById('confirm-delete-btn');
+      if (btn) {
+        btn.textContent = 'Haan, Delete Karo';
+        btn.style.background = '';
+        btn.style.boxShadow = '';
+      }
+    } catch {}
   },
 
   /* ============================================
@@ -6549,6 +7015,14 @@ const TASKS = {
     if (overlay) overlay.classList.add('open');
     setTimeout(() => document.getElementById('at-title')?.focus(), 350);
     Utils.haptic(30);
+  },
+
+  handleCardTap(event, id) {
+    // Ignore if swipe is in progress or clicking inner controls
+    if (event.target.closest('.task-cb') || event.target.closest('.swipe-bg')) return;
+    const task = DB.getTasks().find(t => t.id === id);
+    if (!task) return;
+    if (!task.completed) this.completeTask(id);
   },
 
   closeAddTask() {
@@ -7190,6 +7664,9 @@ const FOCUS = {
     if (!this._audioCtx) {
       try { this._audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch { return null; }
     }
+    if (this._audioCtx && this._audioCtx.state === 'suspended') {
+      this._audioCtx.resume().catch(() => {});
+    }
     return this._audioCtx;
   },
 
@@ -7432,7 +7909,10 @@ const GOALS = {
       return;
     }
 
-    list.innerHTML = goals.map(g => this._goalCardHTML(g)).join('');
+    list.innerHTML = goals.map(g => {
+      try { return this._goalCardHTML(g); }
+      catch(e) { console.warn('[GOALS] card error:', g.id, e); return ''; }
+    }).join('');
   },
 
   /* ============================================
@@ -7459,7 +7939,7 @@ const GOALS = {
     const isComplete = goal.status === 'completed';
 
     return `
-      <div class="goal-card ${isComplete ? 'completed-card' : ''}" onclick="GOALS.openDetail('${goal.id}')">
+      <div class="goal-card card-reveal ${isComplete ? 'completed-card' : ''}" onclick="GOALS.openDetail('${goal.id}')" style="animation-delay:${(Math.random()*0.1).toFixed(2)}s;">
         <div class="goal-color-strip" style="background:${color};"></div>
         <div class="goal-card-inner">
           ${isComplete ? '<div class="goal-completed-badge">✅</div>' : ''}
@@ -7498,8 +7978,9 @@ const GOALS = {
 
   _daysLeftTag(dateStr) {
     if (!dateStr) return '<div class="goal-days-badge">📅 No date</div>';
-    const today  = new Date(Utils.today());
-    const target = new Date(dateStr);
+    const today  = safeParseDate(Utils.today());
+    const target = safeParseDate(dateStr);
+    if (!target) return '<div class="goal-days-badge">📅 Invalid date</div>';
     const diff   = Math.ceil((target - today) / (1000 * 60 * 60 * 24));
     if (diff < 0) return `<div class="goal-days-badge urgent">⚠️ ${Math.abs(diff)}d overdue</div>`;
     if (diff === 0) return `<div class="goal-days-badge urgent">⚠️ Aaj deadline!</div>`;
@@ -7596,8 +8077,10 @@ const GOALS = {
     set('gd-hrs-req',  goal.requiredHours > 0 ? `${goal.requiredHours}h` : '—');
 
     if (goal.targetDate) {
-      const diff = Math.ceil((new Date(goal.targetDate) - new Date(Utils.today())) / 86400000);
-      set('gd-days-left', diff < 0 ? `${Math.abs(diff)}d overdue` : `${diff}d`);
+      const d1 = safeParseDate(goal.targetDate);
+      const d2 = safeParseDate(Utils.today());
+      const diff = (d1 && d2) ? Math.ceil((d1 - d2) / 86400000) : null;
+      set('gd-days-left', diff === null ? '—' : diff < 0 ? `${Math.abs(diff)}d overdue` : `${diff}d`);
     } else {
       set('gd-days-left', '—');
     }
@@ -7952,7 +8435,7 @@ const HABITS = {
     else if (missed > 0 && streak === 0) extraCls = 'missed';
 
     return `
-      <div class="habit-card ${extraCls}" id="hcard-${habit.id}">
+      <div class="habit-card ${extraCls}" id="hcard-${habit.id}" onclick="HABITS.handleCardTap(event,'${habit.id}')">
         <div class="habit-color-strip" style="background:${color};"></div>
         <div class="habit-cb" id="hcb-${habit.id}" onclick="HABITS.toggleHabit('${habit.id}')" title="${isDone ? 'Done!' : 'Mark as done'}">${isDone ? '✓' : ''}</div>
         <div class="habit-content">
@@ -7977,8 +8460,11 @@ const HABITS = {
     const last  = dates[dates.length - 1];
     const today = Utils.today();
     if (last === today) return 0;
-    const diff  = Math.floor((new Date(today) - new Date(last)) / 86400000);
-    return diff;
+    const d1 = safeParseDate(today);
+    const d2 = safeParseDate(last);
+    if (!d1 || !d2) return 999;
+    const diff  = Math.floor((d1 - d2) / 86400000);
+    return isNaN(diff) ? 999 : diff;
   },
 
   /* ============================================
@@ -8012,6 +8498,7 @@ const HABITS = {
         // Award coin
         UI.addCoins(1, null);
         UI.showCoinPop('+1🪙');
+        SFX.ding();
         Utils.haptic(70);
 
         // Streak message
@@ -8115,6 +8602,11 @@ const HABITS = {
     if (GOALS.activeSubtab !== 'habits') GOALS.switchSubtab('habits');
   },
 
+  handleCardTap(event, id) {
+    if (event.target.closest('.habit-cb')) return;
+    this.toggleHabit(id);
+  },
+
   closeAddHabit() {
     document.getElementById('add-habit-overlay')?.classList.remove('open');
   },
@@ -8190,13 +8682,20 @@ const STATS = {
      BADGES DEFINITION
   ============================================ */
   BADGES: [
-    { id: 'week_warrior',  emoji: '🔥', name: 'Week Warrior',  req: '7 day streak',     check: u => (u.streak || 0) >= 7  },
-    { id: 'consistent',    emoji: '💪', name: 'Consistent',    req: '21 day streak',    check: u => (u.streak || 0) >= 21 },
-    { id: 'goal_crusher',  emoji: '🎯', name: 'Goal Crusher',  req: 'Complete a goal',  check: () => DB.getGoals().some(g => g.status === 'completed') },
-    { id: 'speed_runner',  emoji: '⚡', name: 'Speed Runner',  req: '10 sessions',      check: () => DB.getSessions().length >= 10 },
-    { id: 'zen_master',    emoji: '🧘', name: 'Zen Master',    req: '5 focus hrs/day',  check: () => Utils.getTodayFocusHours() >= 5 },
-    { id: 'mit_hero',      emoji: '🌟', name: 'MIT Hero',      req: '15 MIT done',      check: () => DB.getTasks().filter(t => t.isMIT && t.completed).length >= 15 },
-    { id: 'life_master',   emoji: '👑', name: 'Life Master',   req: 'Level 5',          check: u => Utils.calculateLevel(u.totalCoins || 0).level >= 5 },
+    { id: 'week_warrior',  emoji: '🔥', name: 'Week Warrior',  req: '7 day streak',       check: u => (u.streak || 0) >= 7  },
+    { id: 'consistent',    emoji: '💪', name: 'Consistent',    req: '21 day streak',       check: u => (u.streak || 0) >= 21 },
+    { id: 'fire_keeper',   emoji: '🏅', name: 'Fire Keeper',   req: '30 day streak',       check: u => (u.streak || 0) >= 30 },
+    { id: 'goal_crusher',  emoji: '🎯', name: 'Goal Crusher',  req: 'Complete a goal',     check: () => DB.getGoals().some(g => g.status === 'completed') },
+    { id: 'goal_hunter',   emoji: '🏆', name: 'Goal Hunter',   req: 'Complete 5 goals',    check: () => DB.getGoals().filter(g => g.status === 'completed').length >= 5 },
+    { id: 'speed_runner',  emoji: '⚡', name: 'Speed Runner',  req: '10 sessions',         check: () => DB.getSessions().length >= 10 },
+    { id: 'century',       emoji: '💯', name: 'Century',       req: '100 sessions',        check: () => DB.getSessions().length >= 100 },
+    { id: 'task_master',   emoji: '✅', name: 'Task Master',   req: '50 tasks done',       check: () => DB.getTasks().filter(t => t.completed).length >= 50 },
+    { id: 'zen_master',    emoji: '🧘', name: 'Zen Master',    req: '5 focus hrs/day',     check: () => Utils.getTodayFocusHours() >= 5 },
+    { id: 'mit_hero',      emoji: '🌟', name: 'MIT Hero',      req: '15 MIT done',         check: () => DB.getTasks().filter(t => t.isMIT && t.completed).length >= 15 },
+    { id: 'journal_bird',  emoji: '📔', name: 'Journal Bird',  req: '7 journal entries',   check: () => { const e = DB.getData(KEYS.JOURNAL)||{}; return Object.keys(e).length >= 7; } },
+    { id: 'habit_hero',    emoji: '🌿', name: 'Habit Hero',    req: '5 active habits',     check: () => DB.getHabits().length >= 5 },
+    { id: 'early_bird',    emoji: '🐦', name: 'Early Bird',    req: '10 morning sessions', check: () => DB.getSessions().filter(s => { try { return new Date(s.completedAt).getHours() < 9; } catch { return false; } }).length >= 10 },
+    { id: 'life_master',   emoji: '👑', name: 'Life Master',   req: 'Level 5',             check: u => Utils.calculateLevel(u.totalCoins || 0).level >= 5 },
   ],
 
   /* Level thresholds for progress bar */
@@ -8297,19 +8796,32 @@ const STATS = {
       return;
     }
 
+    // Show skeleton briefly for visual polish
+    const wrap = canvas.closest('.st-radar-wrap');
+    if (wrap && DB.getSessions().length === 0) {
+      wrap.innerHTML = `<div class="skeleton skeleton-chart" style="height:200px;"></div>`;
+      setTimeout(() => {
+        wrap.innerHTML = `<canvas id="st-radar-chart" height="240"></canvas>`;
+        this._buildRadarChart();
+      }, 600);
+      return;
+    }
+    this._buildRadarChart();
+  },
+
+  _buildRadarChart() {
+    const canvas = document.getElementById('st-radar-chart');
+    if (!canvas) return;
+    const areas = DB.getAreas();
     const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
     const weekSessions = DB.getSessions().filter(s => s.completedAt > weekAgo);
-
     const labels = areas.map(a => a.name);
     const data   = areas.map(a => {
       const mins = weekSessions.filter(s => s.areaId === a.id).reduce((sum, s) => sum + (s.duration || 0), 0);
       return parseFloat((mins / 60).toFixed(1));
     });
-
     const maxVal = Math.max(...data, 1);
     const borderColors = areas.map(a => a.color);
-    const bgColors     = areas.map(a => a.color + '33');
-
     try {
       const chart = new Chart(canvas, {
         type: 'radar',
@@ -9091,8 +9603,16 @@ const SETTINGS = {
           <div class="settings-row" onclick="SETTINGS.exportBackup()">
             <div class="settings-row-icon" style="background:var(--success-soft);">📤</div>
             <div class="settings-row-left">
-              <div class="settings-row-label">Export Backup</div>
-              <div class="settings-row-sub">Download JSON file</div>
+              <div class="settings-row-label">Export Backup (JSON)</div>
+              <div class="settings-row-sub">Download complete backup file</div>
+            </div>
+            <div class="settings-chevron">›</div>
+          </div>
+          <div class="settings-row" onclick="SETTINGS.exportCSV()">
+            <div class="settings-row-icon" style="background:var(--success-soft);">📊</div>
+            <div class="settings-row-left">
+              <div class="settings-row-label">Export Tasks (CSV)</div>
+              <div class="settings-row-sub">Excel/Sheets mein open karo</div>
             </div>
             <div class="settings-chevron">›</div>
           </div>
@@ -9114,6 +9634,21 @@ const SETTINGS = {
           </div>
         </div>
         <input type="file" id="s-import-input" accept=".json" style="display:none;" onchange="SETTINGS.importBackup(this)">
+      </div>
+
+      <!-- KEYBOARD SHORTCUTS -->
+      <div class="settings-section">
+        <div class="settings-section-title">⌨️ Quick Access</div>
+        <div class="settings-card">
+          <div class="settings-row" onclick="KB.open()" style="cursor:pointer;">
+            <div class="settings-row-icon" style="background:var(--primary-soft);">⌨️</div>
+            <div class="settings-row-left">
+              <div class="settings-row-label">Keyboard Shortcuts</div>
+              <div class="settings-row-sub">N, G, F, H, S, J, I, ? — power user keys</div>
+            </div>
+            <div class="settings-chevron">›</div>
+          </div>
+        </div>
       </div>
 
       <!-- ABOUT -->
@@ -9251,6 +9786,9 @@ const SETTINGS = {
     DB.saveData(KEYS.GOALS, goals);
     const tasks = DB.getTasks().filter(t => t.areaId !== id);
     DB.saveData(KEYS.TASKS, tasks);
+    // Unlink habits from deleted area (preserve habit history)
+    const habits = DB.getHabits().map(h => h.areaId === id ? { ...h, areaId: null } : h);
+    DB.saveHabits(habits);
     const list = document.getElementById('s-areas-list');
     if (list) list.innerHTML = this._renderAreasList(DB.getAreas());
     refreshAll();
@@ -9274,7 +9812,8 @@ const SETTINGS = {
           tasks:    DB.getTasks(),
           sessions: DB.getSessions(),
           habits:   DB.getHabits(),
-          ideas:    DB.getIdeas()
+          ideas:    DB.getIdeas(),
+          journal:  DB.getData(KEYS.JOURNAL) || {}
         }
       };
       const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
@@ -9289,6 +9828,42 @@ const SETTINGS = {
     } catch(e) {
       console.warn('[SETTINGS] export:', e);
       UI.showToast('Export fail hua', '❌');
+    }
+  },
+
+  exportCSV() {
+    try {
+      const tasks = DB.getTasks();
+      const areas = DB.getAreas();
+      const areaMap = Object.fromEntries(areas.map(a => [a.id, a.name]));
+      const rows = [
+        ['Title', 'Priority', 'Energy', 'Area', 'MIT', 'Completed', 'Due Date', 'Created At']
+      ];
+      tasks.forEach(t => {
+        rows.push([
+          `"${(t.title||'').replace(/"/g,'""')}"`,
+          t.priority || 'medium',
+          t.energy || 'medium',
+          `"${areaMap[t.areaId] || ''}"`,
+          t.isMIT ? 'Yes' : 'No',
+          t.completed ? 'Yes' : 'No',
+          t.dueDate || '',
+          t.createdAt ? t.createdAt.split('T')[0] : ''
+        ].join(','));
+      });
+      const csv = rows.join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `focusos-tasks-${Utils.today()}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      Utils.haptic([30, 20, 30]);
+      UI.showToast('Tasks CSV export ho gaya! 📊', '✅');
+    } catch(e) {
+      console.warn('[SETTINGS] CSV export:', e);
+      UI.showToast('CSV export fail hua', '❌');
     }
   },
 
@@ -9311,6 +9886,7 @@ const SETTINGS = {
         if (d.sessions) DB.saveData(KEYS.SESSIONS, d.sessions);
         if (d.habits)   DB.saveData(KEYS.HABITS,   d.habits);
         if (d.ideas)    DB.saveData(KEYS.IDEAS,     d.ideas);
+        if (d.journal)  DB.saveData(KEYS.JOURNAL,  d.journal);
         // Apply theme
         if (d.user && d.user.theme) document.documentElement.setAttribute('data-theme', d.user.theme);
         input.value = '';
@@ -9351,6 +9927,10 @@ const INSTALL = {
   _dismissed: false,
 
   init() {
+    // Don't show if already permanently dismissed
+    if (DB.getData(KEYS.INSTALL_DISMISSED)) {
+      this._dismissed = true;
+    }
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       this._deferredPrompt = e;
@@ -9371,12 +9951,17 @@ const INSTALL = {
     if (el) el.classList.remove('show');
   },
 
+  dismissPermanently() {
+    this.dismiss();
+    DB.saveData(KEYS.INSTALL_DISMISSED, true);
+  },
+
   async install() {
     if (!this._deferredPrompt) return;
     this._deferredPrompt.prompt();
     const result = await this._deferredPrompt.userChoice;
     this._deferredPrompt = null;
-    this.dismiss();
+    this.dismissPermanently();
     if (result.outcome === 'accepted') {
       UI.showToast('App install ho gaya! 🎉', '📱');
     }
@@ -9427,17 +10012,360 @@ self.addEventListener('fetch', e => {
 }
 
 /* ============================================
+   SFX — SOUND EFFECTS MODULE
+============================================ */
+const SFX = {
+  _ctx: null,
+
+  _getCtx() {
+    if (!this._ctx) {
+      try { this._ctx = new (window.AudioContext || window.webkitAudioContext)(); } catch { return null; }
+    }
+    if (this._ctx.state === 'suspended') this._ctx.resume().catch(() => {});
+    return this._ctx;
+  },
+
+  _allowed() {
+    const user = DB.getUser();
+    return !user || user.soundEnabled !== false;
+  },
+
+  /* Crisp 'pop' — task complete */
+  pop() {
+    if (!this._allowed()) return;
+    try {
+      const ctx = this._getCtx(); if (!ctx) return;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(600, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(900, ctx.currentTime + 0.05);
+      osc.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.15);
+      gain.gain.setValueAtTime(0.25, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.2);
+    } catch {}
+  },
+
+  /* Warm 'ding' — habit done */
+  ding() {
+    if (!this._allowed()) return;
+    try {
+      const ctx = this._getCtx(); if (!ctx) return;
+      [523, 659, 784].forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.type = 'triangle';
+        osc.frequency.value = freq;
+        const t = ctx.currentTime + i * 0.1;
+        gain.gain.setValueAtTime(0.18, t);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+        osc.start(t); osc.stop(t + 0.4);
+      });
+    } catch {}
+  },
+
+  /* Soft 'whoosh' — swipe action */
+  whoosh() {
+    if (!this._allowed()) return;
+    try {
+      const ctx = this._getCtx(); if (!ctx) return;
+      const buf = ctx.createBuffer(1, ctx.sampleRate * 0.15, ctx.sampleRate);
+      const data = buf.getChannelData(0);
+      for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / data.length) * 0.12;
+      const src = ctx.createBufferSource();
+      src.buffer = buf;
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'highpass'; filter.frequency.value = 800;
+      src.connect(filter); filter.connect(ctx.destination);
+      src.start();
+    } catch {}
+  },
+
+  /* Level-up fanfare */
+  fanfare() {
+    if (!this._allowed()) return;
+    try {
+      const ctx = this._getCtx(); if (!ctx) return;
+      [523, 659, 784, 1047].forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        const t = ctx.currentTime + i * 0.12;
+        gain.gain.setValueAtTime(0.22, t);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
+        osc.start(t); osc.stop(t + 0.5);
+      });
+    } catch {}
+  }
+};
+
+/* ============================================
+   JOURNAL MODULE
+============================================ */
+const JOURNAL = {
+  _selectedMood: '',
+
+  openModal() {
+    this._selectedMood = '';
+    const today = Utils.today();
+    const entries = DB.getData(KEYS.JOURNAL) || {};
+    const todayEntry = entries[today] || { text: '', mood: '' };
+
+    // Set date label
+    const dateEl = document.getElementById('journal-date-label');
+    if (dateEl) dateEl.textContent = new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+
+    // Restore today's entry if exists
+    const textEl = document.getElementById('journal-text');
+    if (textEl) { textEl.value = todayEntry.text || ''; this._updateCharCount(); }
+
+    // Restore mood
+    if (todayEntry.mood) { this._selectedMood = todayEntry.mood; this._updateMoodUI(); }
+    else { document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected')); }
+
+    // Save status
+    const status = document.getElementById('journal-save-status');
+    if (status) status.textContent = todayEntry.text ? 'Previously saved ✓' : '';
+
+    // Journal streak
+    this._updateStreakInfo(entries);
+
+    document.getElementById('journal-overlay')?.classList.add('open');
+    setTimeout(() => document.getElementById('journal-text')?.focus(), 350);
+    Utils.haptic(25);
+  },
+
+  handleOverlayClick(e) {
+    if (e.target === document.getElementById('journal-overlay')) this.closeModal();
+  },
+
+  closeModal() {
+    document.getElementById('journal-overlay')?.classList.remove('open');
+  },
+
+  selectMood(mood) {
+    this._selectedMood = mood;
+    this._updateMoodUI();
+    Utils.haptic(20);
+  },
+
+  _updateMoodUI() {
+    document.querySelectorAll('.mood-btn').forEach(b => {
+      b.classList.toggle('selected', b.dataset.mood === this._selectedMood);
+    });
+  },
+
+  _updateCharCount() {
+    const text = document.getElementById('journal-text')?.value || '';
+    const el = document.getElementById('journal-char-count');
+    if (el) el.textContent = `${text.length} / 2000`;
+  },
+
+  _updateStreakInfo(entries) {
+    // Calculate journal streak
+    let streak = 0;
+    let check = Utils.today();
+    for (let i = 0; i < 365; i++) {
+      if (entries[check] && entries[check].text) { streak++; }
+      else if (i > 0) break;
+      const d = new Date(check); d.setDate(d.getDate() - 1);
+      check = d.toISOString().split('T')[0];
+    }
+    const streakEl = document.getElementById('journal-streak-info');
+    const streakTxt = document.getElementById('journal-streak-text');
+    if (streakEl && streak > 1) {
+      streakEl.style.display = '';
+      if (streakTxt) streakTxt.textContent = `Journal streak: ${streak} din! Keep writing! 🔥`;
+    } else if (streakEl) {
+      streakEl.style.display = 'none';
+    }
+  },
+
+  save() {
+    const text = document.getElementById('journal-text')?.value?.trim() || '';
+    if (!text && !this._selectedMood) {
+      UI.showToast('Kuch toh likho! 📝', '✏️'); return;
+    }
+    const today = Utils.today();
+    const entries = DB.getData(KEYS.JOURNAL) || {};
+    const isFirst = !entries[today]?.text && text;
+    entries[today] = { text, mood: this._selectedMood, savedAt: new Date().toISOString() };
+    DB.saveData(KEYS.JOURNAL, entries);
+
+    if (isFirst) { UI.addCoins(1, null); UI.showCoinPop('+1🪙'); }
+    UI.showToast('Journal save ho gaya! 📔', '✍️');
+    Utils.haptic(60);
+    this.closeModal();
+    refreshHome();
+  },
+
+  renderHomeWidget() {
+    const card = document.getElementById('home-journal-card');
+    const preview = document.getElementById('home-journal-preview');
+    const moodEl = document.getElementById('home-journal-mood');
+    if (!card) return;
+    const today = Utils.today();
+    const entries = DB.getData(KEYS.JOURNAL) || {};
+    const entry = entries[today];
+    if (entry && entry.text) {
+      if (preview) preview.textContent = entry.text.substring(0, 100) + (entry.text.length > 100 ? '...' : '');
+      if (moodEl) moodEl.textContent = entry.mood || '';
+      card.style.borderColor = 'var(--primary)';
+      card.style.background = 'var(--primary-soft)';
+    } else {
+      if (preview) preview.textContent = 'Tap karke apne thoughts likho... ✍️';
+      if (moodEl) moodEl.textContent = '';
+      card.style.borderColor = '';
+      card.style.background = '';
+    }
+    // Subtitle: streak
+    const sub = document.getElementById('home-journal-subtitle');
+    if (sub) {
+      let streak = 0;
+      let check = today;
+      for (let i = 0; i < 100; i++) {
+        if (entries[check] && entries[check].text) streak++;
+        else break;
+        const d = new Date(check); d.setDate(d.getDate()-1);
+        check = d.toISOString().split('T')[0];
+      }
+      sub.textContent = streak > 0 ? `🔥 ${streak} din streak` : 'Daily reflection';
+    }
+  }
+};
+
+// Hook journal textarea char count
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('journal-text')?.addEventListener('input', () => JOURNAL._updateCharCount());
+});
+
+/* ============================================
+   VOICE INPUT MODULE
+============================================ */
+const VOICE = {
+  _recognition: null,
+  _listening: false,
+
+  startForTask() {
+    if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+      UI.showToast('Voice input is browser mein support nahi hai 😕', '🎙️'); return;
+    }
+    if (this._listening) { this.stop(); return; }
+
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    this._recognition = new SR();
+    this._recognition.lang = 'hi-IN';
+    this._recognition.interimResults = true;
+    this._recognition.maxAlternatives = 1;
+
+    this._recognition.onstart = () => {
+      this._listening = true;
+      const btn = document.getElementById('at-voice-btn');
+      if (btn) { btn.textContent = '🔴'; btn.classList.add('listening'); }
+      UI.showToast('Bol do task! 🎙️', '🔴');
+    };
+
+    this._recognition.onresult = (e) => {
+      const transcript = Array.from(e.results).map(r => r[0].transcript).join('');
+      const input = document.getElementById('at-title');
+      if (input) input.value = transcript;
+    };
+
+    this._recognition.onend = () => {
+      this._listening = false;
+      const btn = document.getElementById('at-voice-btn');
+      if (btn) { btn.textContent = '🎙️'; btn.classList.remove('listening'); }
+    };
+
+    this._recognition.onerror = (e) => {
+      this._listening = false;
+      const btn = document.getElementById('at-voice-btn');
+      if (btn) { btn.textContent = '🎙️'; btn.classList.remove('listening'); }
+      if (e.error !== 'aborted') UI.showToast('Voice input error: ' + e.error, '⚠️');
+    };
+
+    this._recognition.start();
+    Utils.haptic(30);
+  },
+
+  stop() {
+    if (this._recognition) { try { this._recognition.abort(); } catch {} }
+    this._listening = false;
+  }
+};
+
+/* ============================================
+   KEYBOARD SHORTCUTS MODULE
+============================================ */
+const KB = {
+  open() {
+    document.getElementById('kb-shortcuts-overlay')?.classList.add('open');
+    Utils.haptic(20);
+  },
+  close() {
+    document.getElementById('kb-shortcuts-overlay')?.classList.remove('open');
+  }
+};
+
+/* ============================================
+   SCROLL PROGRESS MODULE
+============================================ */
+const SCROLL_PROGRESS = {
+  init() {
+    document.querySelectorAll('.screen').forEach(screen => {
+      screen.addEventListener('scroll', () => {
+        if (!screen.classList.contains('active')) return;
+        const max = screen.scrollHeight - screen.clientHeight;
+        const pct = max > 0 ? screen.scrollTop / max : 0;
+        const bar = document.getElementById('scroll-progress');
+        if (bar) bar.style.transform = `scaleX(${pct})`;
+      });
+    });
+  }
+};
+
+/* ============================================
    KEYBOARD SUPPORT
 ============================================ */
 document.addEventListener('keydown', e => {
+  // Don't fire shortcuts when typing in inputs
+  const tag = e.target.tagName;
+  const isTyping = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || e.target.isContentEditable;
+
   if (e.key === 'Escape') {
+    if (document.getElementById('kb-shortcuts-overlay')?.classList.contains('open')) { KB.close(); return; }
     if (SETTINGS._open) { SETTINGS.close(); return; }
+    if (document.getElementById('journal-overlay')?.classList.contains('open')) { JOURNAL.closeModal(); return; }
     UI.closeFab();
     UI.closeIdeaModal();
     TASKS.closeAddTask();
     TASKS.closeConfirm();
+    GOALS.closeAddGoal?.();
+    VOICE.stop?.();
+    return;
   }
-  if (e.key === 'Enter' && document.getElementById('onboarding')?.classList.contains('active')) UI.obNext();
+
+  if (e.key === 'Enter' && document.getElementById('onboarding')?.classList.contains('active')) { UI.obNext(); return; }
+
+  // Global shortcuts (not when typing)
+  if (!isTyping && document.getElementById('main-app')?.classList.contains('active')) {
+    switch(e.key.toLowerCase()) {
+      case 'n': TASKS.showAddTask(); break;
+      case 'g': UI.switchTab('goals'); break;
+      case 'f': UI.switchTab('focus'); break;
+      case 'h': UI.switchTab('home'); break;
+      case 's': UI.switchTab('stats'); break;
+      case 'j': JOURNAL.openModal(); break;
+      case 'i': UI.showIdeaModal(); break;
+      case '?': KB.open(); break;
+    }
+  }
 });
 
 /* ============================================
@@ -9451,8 +10379,9 @@ document.addEventListener('DOMContentLoaded', () => {
       document.documentElement.setAttribute('data-theme', user.theme);
     }
   } catch {}
-  // Init install prompt
+  // Init modules
   INSTALL.init();
+  SCROLL_PROGRESS.init();
   // Boot app
   UI.init();
 });
